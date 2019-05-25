@@ -1,0 +1,138 @@
+<style lang="less">
+.page__bd.button_container {
+  /* background: #f00; */
+  width: 80%;
+  padding-left: 10%;
+  padding-top: 200rpx;
+}
+</style>
+<template>
+    <view class="page">
+        <view class="page__bd button_container">
+            <button class="weui-btn" type="primary" @tap="beginRecord">开始录音</button>
+            <button class="weui-btn" type="primary" @tap="pauseRecord">暂停录音</button>
+            <button class="weui-btn" type="primary" @tap="resumeRecord">恢复录音</button>
+            <button class="weui-btn" type="primary" @tap.capture="endRecord">结束录音</button>
+            <button class="weui-btn" type="primary" @tap="playRecord">播放录音</button>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+const options = {
+  duration: 30000, // 在到达指定的 duration 后会自动停止录音，最大值 600000（10 分钟）,默认值 60000（1 分钟
+  sampleRate: 8000,
+  numberOfChannels: 1, // 录音通道数，有效值 1/2
+  encodeBitRate: 16000,
+  format: 'mp3', // 音频格式，有效值 aac/mp3
+  frameSize: 5 // 指定帧大小，单位 KB。传入 frameSize 后，每录制指定帧大小的内容后，会回调录制的文件内容，不指定则不会回调。暂仅支持 mp3 格式。
+}
+
+let recorder = null
+let recorderDelegate = null
+let audioFilePath = null
+
+export default class SliceRecorder extends wepy.page {
+  config = {
+    navigationBarTitleText: 'SliceRecorder Pages'
+  }
+  components = {}
+
+  data = {}
+
+  computed = {}
+
+  methods = {
+    async beginRecord() {
+      console.log(`beginRecord`)
+      recorder.start(options)
+    },
+    async endRecord() {
+      console.log(`endRecord`)
+      recorder.stop()
+    },
+    async resumeRecord() {
+      console.log(`resumeRecord`)
+      recorder.resume()
+    },
+    async playRecord() {
+      console.log(`playRecord: ${audioFilePath}`)
+      if (audioFilePath != null) {
+        wepy.playVoice({
+          filePath: audioFilePath,
+          complete() {
+            wepy.showToast({
+              title: '播放结束', // 提示的内容,
+              icon: 'success', // 图标,
+              duration: 2000, // 延迟时间,
+              mask: true, // 显示透明蒙层，防止触摸穿透,
+              success: res => {}
+            })
+          }
+        })
+      } else {
+        wepy.showToast({
+          title: '没有音频文件', // 提示的内容,
+          icon: 'success', // 图标,
+          duration: 2000, // 延迟时间,
+          mask: true, // 显示透明蒙层，防止触摸穿透,
+          success: res => {}
+        })
+      }
+    },
+    async pauseRecord() {
+      console.log(`pauseRecord`)
+      recorder.pause()
+    }
+  }
+
+  events = {}
+
+  onLoad() {
+    if (wepy.getRecorderManager) {
+      recorder = wepy.getRecorderManager()
+      recorder.onStart(() => {
+        console.log('recorder start')
+        if (recorderDelegate && recorderDelegate.onRecordStart) {
+          recorderDelegate.onRecordStart()
+        }
+      })
+      recorder.onResume(() => {
+        console.log('recorder resume')
+      })
+      recorder.onPause(() => {
+        console.log('recorder pause')
+      })
+      recorder.onStop(res => {
+        console.log('recorder stop', res)
+        const { tempFilePath } = res
+        console.log('tempFilePath', tempFilePath)
+        audioFilePath = tempFilePath
+        if (recorderDelegate && recorderDelegate.onRecordStop) {
+          recorderDelegate.onRecordStop(tempFilePath)
+        }
+      })
+      recorder.onFrameRecorded(res => {
+        // isLastFrame|Boolean当前帧是否正常录音结束前的最后一帧;frameBuffer|ArrayBuffer|录音分片结果数据
+        const { frameBuffer, isLastFrame } = res
+        console.log(
+          'frameBuffer.byteLength: ',
+          frameBuffer.byteLength,
+          ' isLastFrame:',
+          isLastFrame
+        )
+        const base64Buffer = wx.arrayBufferToBase64(frameBuffer)
+        if (recorderDelegate && recorderDelegate.onReceiveBuffer) {
+          recorderDelegate.onReceiveBuffer({ base64Buffer, isLastFrame })
+        }
+        // console.log('frameBuffer base64: ', base64)
+      })
+      // console.log('recorder =', recorder)
+    } else {
+      console.log('not support wepy.getrecorder')
+    }
+  }
+}
+</script>

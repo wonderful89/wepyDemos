@@ -32,6 +32,7 @@ export default class extends wepy.app {
       'pages/framework/index',
 
       'pages/api/index',
+      'pages/api/slice_recoder',
 
       'pages/comp/index',
 

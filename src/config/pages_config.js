@@ -11,7 +11,8 @@ const frameworkPages = {
 
 const apiPages = {
   'weui: list': '/example/button',
-  'weui: button': '/example/button'
+  'weui: button': '/example/button',
+  '流式录音测试': 'slice_recoder'
 }
 
 const componentPages = {
@@ -21,9 +22,8 @@ const componentPages = {
 const appPages = [
   'pages/framework/index',
 
-  'pages/framework/index',
-
   'pages/api/index',
+  'pages/api/slice_recoder',
 
   'pages/comp/index',
 
