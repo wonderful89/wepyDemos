@@ -1,4 +1,10 @@
 <style lang="less">
+@import './style/weui.less';
+// page {
+//   background-color: #f8f8f8;
+//   font-size: 16px;
+//   font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+// }
 .container {
   height: 100%;
   display: flex;
@@ -6,6 +12,7 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  //   background: #ff0000;
 }
 </style>
 
@@ -22,13 +29,52 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/framework/index',
+
+      'pages/api/index',
+
+      'pages/comp/index',
+
+      'pages/home',
+      'pages/index',
+
+      'example/grid',
+      'example/list',
+      'example/actionsheet',
+      'example/button',
+      'example/flex'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      color: '#a9b7b7',
+      selectedColor: '#1296db',
+      borderStyle: 'white',
+      backgroundColor: '#e6e6e6',
+      list: [
+        {
+          iconPath: 'assets/images/tab_framework.png',
+          selectedIconPath: 'assets/images/tab_framework_selected.png',
+          pagePath: 'pages/framework/index',
+          text: '框架'
+        },
+        {
+          iconPath: 'assets/images/tab_comp.png',
+          selectedIconPath: 'assets/images/tab_comp_selected.png',
+          pagePath: 'pages/comp/index',
+          text: '组件'
+        },
+        {
+          iconPath: 'assets/images/tab_api.png',
+          selectedIconPath: 'assets/images/tab_api_selected.png',
+          pagePath: 'pages/api/index',
+          text: 'API'
+        }
+      ]
     }
   }
 
@@ -36,7 +82,7 @@ export default class extends wepy.app {
     userInfo: null
   }
 
-  constructor () {
+  constructor() {
     super()
     this.use('requestfix')
   }
@@ -45,7 +91,7 @@ export default class extends wepy.app {
     this.testAsync()
   }
 
-  sleep (s) {
+  sleep(s) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('promise resolved')
@@ -53,7 +99,7 @@ export default class extends wepy.app {
     })
   }
 
-  async testAsync () {
+  async testAsync() {
     const data = await this.sleep(3)
     console.log(data)
   }
@@ -64,7 +110,7 @@ export default class extends wepy.app {
       return this.globalData.userInfo
     }
     wepy.getUserInfo({
-      success (res) {
+      success(res) {
         that.globalData.userInfo = res.userInfo
         cb && cb(res.userInfo)
       }

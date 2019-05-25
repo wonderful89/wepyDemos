@@ -1,0 +1,40 @@
+<style lang="less">
+.container {
+  // width: 20rem;
+  width: 750rpx;
+  height: 100%;
+  position: absolute;
+  background: #ff0000;
+}
+</style>
+<template>
+    <view class="container"></view>
+</template>
+
+<script>
+/// 可以用来测试eslint检查规则
+import wepy from 'wepy'
+
+export default class Test extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Home Page'
+  }
+  components = {}
+
+  data = {
+    mynum: 20
+  }
+
+  computed = {}
+
+  methods = {
+    plus() {
+      this.mynum++
+    }
+  }
+
+  events = {}
+
+  onLoad() {}
+}
+</script>

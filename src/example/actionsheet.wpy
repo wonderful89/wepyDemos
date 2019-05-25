@@ -1,0 +1,44 @@
+<style>
+page {
+  background-color: #ffffff;
+}
+</style>
+<template>
+    <view class="page">
+        <view class="page__hd">
+            <view class="page__title">ActionSheet</view>
+            <view class="page__desc">弹出式菜单，采用小程序原生的actionsheet</view>
+        </view>
+        <view class="page__bd">
+            <view class="weui-btn-area">
+                <button type="default" @tap="open">ActionSheet</button>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Actionsheet extends wepy.page {
+  methods = {
+    async open() {
+      console.log('open actionsheet')
+      let res = await wepy.showActionSheet({
+        itemList: ['A', 'B', 'C'],
+        success(res) {
+          console.log(`res.tapIndex = ${res.tapIndex}`)
+        },
+        fail(res) {
+          console.log(`res.errMsg = ${res.errMsg}`)
+        }
+      })
+
+      console.log(`res = ${res}`)
+      if (typeof res === 'object' && !res.cancel) {
+        console.log(res.tapIndex)
+      }
+    }
+  }
+}
+</script>

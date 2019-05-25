@@ -1,0 +1,67 @@
+<style lang="less">
+</style>
+<template>
+    <view class="page">
+        <view class="page__bd">
+            <view class="weui-cells__title">Component项目</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-grids">
+                    <block wx:for="{{pageKeys}}" wx:key="*this" wx:item="item" wx:index="index">
+                        <navigator
+                            url="{{pagePaths[index]}}"
+                            class="weui-grid"
+                            hover-class="weui-grid_active"
+                        >
+                            <!-- <image class="weui-grid__icon" src="../images/icon_tabbar.png" /> -->
+                            <view class="weui-grid__label">{{item}}</view>
+                        </navigator>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import pageConfig from '../../config/pages_config'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Component Pages'
+  }
+  components = {}
+
+  data = {
+    pages: pageConfig.componentPages
+  }
+
+  computed = {
+    pageKeys() {
+      return Object.keys(this.pages)
+    },
+    pagePaths() {
+      return Object.values(this.pages)
+    }
+  }
+
+  methods = {
+    plus() {
+      this.mynum++
+    }
+  }
+
+  events = {
+    'index-emit': (...args) => {
+      let $event = args[args.length - 1]
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      )
+    }
+  }
+
+  onLoad() {
+    console.log(`pages = ${Object.values(this.pages)}`)
+  }
+}
+</script>
