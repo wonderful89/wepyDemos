@@ -33,6 +33,7 @@ export default class extends wepy.app {
 
       'pages/api/index',
       'pages/api/slice_recoder',
+      'pages/api/wechat_login',
 
       'pages/comp/index',
 

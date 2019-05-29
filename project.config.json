@@ -1,21 +1,21 @@
 {
-    "description": "A WePY demo project",
-    "setting": {
-        "urlCheck": true,
-        "es6": false,
-        "postcss": false,
-        "minified": false,
-        "newFeature": true,
-        "nodeModules": false,
-        "autoAudits": false,
-        "checkInvalidKey": true
-    },
-    "compileType": "miniprogram",
-    "appid": "wx7e467546d77e514d",
-    "projectname": "myproject",
-    "miniprogramRoot": "dist/",
-    "simulatorType": "wechat",
-    "simulatorPluginLibVersion": {},
-    "libVersion": "2.6.6",
-    "condition": {}
+	"description": "A WePY demo project",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true,
+		"nodeModules": false,
+		"autoAudits": false,
+		"checkInvalidKey": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wx7e467546d77e514d",
+	"projectname": "myproject",
+	"miniprogramRoot": "dist/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"libVersion": "2.6.6",
+	"condition": {}
 }

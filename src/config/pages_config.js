@@ -12,7 +12,8 @@ const frameworkPages = {
 const apiPages = {
   'weui: list': '/example/button',
   'weui: button': '/example/button',
-  '流式录音测试': 'slice_recoder'
+  '流式录音测试': 'slice_recoder',
+  '微信登录': 'wechat_login'
 }
 
 const componentPages = {
@@ -24,6 +25,7 @@ const appPages = [
 
   'pages/api/index',
   'pages/api/slice_recoder',
+  'pages/api/wechat_login',
 
   'pages/comp/index',
 

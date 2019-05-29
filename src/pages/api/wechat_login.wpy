@@ -1,0 +1,67 @@
+<style lang="less">
+</style>
+<template>
+    <view class="page">
+        <view class="page__bd button_container">
+            <button class="weui-btn" type="primary" @tap="clickLogin">点击登录</button>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import pageConfig from '../../config/pages_config'
+
+export default class WechatLogin extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Wechat Login Pages'
+  }
+  components = {}
+
+  data = {
+    pages: pageConfig.apiPages
+  }
+
+  computed = {
+    pageKeys() {
+      return Object.keys(this.pages)
+    },
+    pagePaths() {
+      return Object.values(this.pages)
+    }
+  }
+
+  methods = {
+    async clickLogin() {
+      console.log('clickLogin')
+      wepy.login({
+        success: res => {
+          console.log(`res = ${JSON.stringify(res)}`)
+          wepy.showToast({
+            title: res.code
+          })
+        },
+        fail: () => {
+          console.log(`fail = `)
+        },
+        complete: () => {
+          console.log(`complete = `)
+        }
+      })
+    }
+  }
+
+  events = {
+    'index-emit': (...args) => {
+      let $event = args[args.length - 1]
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      )
+    }
+  }
+
+  onLoad() {
+    console.log(`pages = ${Object.values(this.pages)}`)
+  }
+}
+</script>
