@@ -25,11 +25,15 @@ import configStore from './store'
 
 const store = configStore()
 setStore(store)
+wepy.$store = store
+// injectGlobalProps({ version: '1.0.0' })
+// injectGlobalPayload({ globalPayload: 'playloadValue' })
 
 export default class extends wepy.app {
   config = {
     pages: [
       'pages/framework/index',
+      'pages/framework/redux',
 
       'pages/api/index',
       'pages/api/slice_recoder',

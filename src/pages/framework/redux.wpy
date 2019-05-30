@@ -1,0 +1,154 @@
+<style lang="less">
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+</style>
+<template>
+  <view class="container">
+    <panel>
+      <view class="title" slot="title">测试组件</view>
+
+      <text class="testcounter">计数组件1: </text>
+      <view class="counterview">
+        <counter1 @index-emit.user="counterEmit" />
+      </view>
+
+      <text class="testcounter">计数组件2: </text>
+
+      <view class="counterview">
+        <counter2 :num.sync="mynum"></counter2>
+      </view>
+    </panel>
+    <button class="weui-btn" type="primary" @tap="incNum">increase</button>
+    <button class="weui-btn" type="primary" @tap="incNumDispatch">increase-dispatch</button>
+    <button class="weui-btn" type="primary" @tap="desNumDispatch">decrease-dispatch</button>
+    <button class="weui-btn" type="default" @tap="decNum">decrease</button>
+    <button class="weui-btn" type="default" @tap="asyncInc">asyncInc</button>
+    <button class="weui-btn" type="default" @tap="asyncInc2">asyncInc2</button>
+    <toast />
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import { connect, getStore } from 'wepy-redux'
+import Panel from '@/components/panel' // alias example
+import Counter from 'counter' // alias example
+import Toast from 'wepy-com-toast'
+import testMixin from '../../mixins/test'
+import { INCREMENT, DECREMENT } from '../../store/types/index'
+import { asyncInc, asyncInc2 } from '../../store/actions'
+
+@connect(
+  {
+    num(state) {
+      return state.counter.num
+    },
+    asyncNum(state) {
+      return state.counter.asyncNum
+    },
+    sumNum(state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  },
+  {
+    incNum: INCREMENT,
+    decNum: DECREMENT,
+    asyncInc,
+    asyncInc2: asyncInc2(3)
+  }
+)
+export default class Redux extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Redux'
+  }
+  components = {
+    panel: Panel,
+    counter1: Counter,
+    counter2: Counter,
+    toast: Toast
+  }
+
+  mixins = [testMixin]
+
+  data = {
+    mynum: 20,
+    userInfo: {
+      nickName: '加载中...'
+    },
+    count: 0,
+    netrst: ''
+  }
+
+  computed = {
+    now() {
+      return +new Date()
+    }
+  }
+
+  methods = {
+    plus() {
+      this.mynum++
+    },
+    toast() {
+      let promise = this.$invoke('toast', 'show', {
+        title: '自定义标题',
+        img:
+          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      })
+
+      promise.then(d => {
+        console.log('toast done')
+      })
+    },
+    tap() {
+      console.log('do noting from ' + this.$name)
+    },
+    counterEmit(...args) {
+      let $event = args[args.length - 1]
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      )
+    },
+    incNumDispatch() {
+      let dispatch = getStore().dispatch
+      dispatch({ type: INCREMENT, test: 111 })
+    },
+    desNumDispatch() {
+      let dispatch = wepy.$store.dispatch
+      dispatch({ type: DECREMENT, test: 222 })
+    }
+  }
+
+  events = {
+    'index-emit': (...args) => {
+      let $event = args[args.length - 1]
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      )
+    }
+  }
+
+  onLoad() {
+    let self = this
+    this.$parent.getUserInfo(function(userInfo) {
+      if (userInfo) {
+        self.userInfo = userInfo
+      }
+      self.$apply()
+    })
+  }
+}
+</script>

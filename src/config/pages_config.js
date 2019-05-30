@@ -6,7 +6,8 @@ const frameworkPages = {
   'weui: button': '/example/button',
   'weui: flex': '/example/flex',
   'weui: grid': '/example/grid',
-  'weui: actionsheet': '/example/actionsheet'
+  'weui: actionsheet': '/example/actionsheet',
+  'Redux测试': 'redux'
 }
 
 const apiPages = {
@@ -22,6 +23,7 @@ const componentPages = {
 
 const appPages = [
   'pages/framework/index',
+  'pages/framework/redux',
 
   'pages/api/index',
   'pages/api/slice_recoder',
