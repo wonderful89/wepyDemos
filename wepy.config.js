@@ -1,6 +1,11 @@
 const path = require('path');
 var prod = process.env.NODE_ENV === 'production';
 
+console.log('begin in wepy.config.js');
+const configPro = require('./src/config/pages_config');
+global.__PAGES__ = configPro.appPages;
+global.tabColor = '#a9b7b7' // '#ff0000'
+
 module.exports = {
   wpyExt: '.wpy',
   eslint: true,
@@ -40,8 +45,7 @@ module.exports = {
       ]
     }
   },
-  plugins: {
-  },
+  plugins: {},
   appConfig: {
     noPromiseAPI: ['createSelectorQuery']
   }
@@ -56,8 +60,7 @@ if (prod) {
   module.exports.plugins = {
     uglifyjs: {
       filter: /\.js$/,
-      config: {
-      }
+      config: {}
     },
     imagemin: {
       filter: /\.(jpg|png|jpeg)$/,

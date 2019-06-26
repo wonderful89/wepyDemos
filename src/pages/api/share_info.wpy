@@ -1,0 +1,340 @@
+<style lang="less">
+.btn {
+  padding: 10rpx 20rpx;
+  float: left;
+  margin: 10rpx;
+  border: solid 1px #dfdfdf;
+  border-radius: 10rpx;
+}
+</style>
+<template>
+    <view class="page">
+        <view class="page__bd button_container">
+            <!-- <canvas-drag id="canvas-drag" graph="{{graph}}" width="750" height="600"></canvas-drag>
+            <view class="btn" bindtap="onAddImage">添加图片</view>
+            <view class="btn" bindtap="onAddTest">添加测试图片</view>
+            <view class="btn" bindtap="onAddText">添加文字</view>
+            <view class="btn" bindtap="onExport">导出图片</view>
+            <view class="btn" bindtap="onChangeColor">改变文字颜色</view>
+            <view class="btn" bindtap="onChangeBgColor">改变背景颜色</view>
+            <view class="btn" bindtap="onChangeBgImage">改变背景照片</view>
+            <view class="btn" bindtap="onExportJSON">导出模板</view>
+            <view class="btn" bindtap="onImport">导入默认模板</view>
+            <view class="btn" bindtap="onClearCanvas">清空画布</view>
+            <view class="btn" bindtap="onShowPic">显示导出图片</view> -->
+
+            <button class="weui-btn" type="primary" open-type="share" @tap="tapShare">点击分享</button>
+            <painter style="position:fixed;top:-9999rpx" palette="{{userInfoTemplate}}" bind:imgOK="onImgOK" />
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import CanvasDrag from '../../components/canvas-drag/canvas-drag'
+
+const templatePalette = {
+  width: '500rpx',
+  height: '400rpx',
+  background: '#eee',
+  views: [
+    {
+      type: 'image',
+      url: '/palette/sky.jpg',
+      css: {
+        shadow: '10rpx 10rpx 5rpx #888888'
+      }
+    },
+    {
+      type: 'rect',
+      css: {
+        width: '250rpx',
+        height: '150rpx',
+        right: '50rpx',
+        top: '60rpx',
+        shadow: '10rpx 10rpx 5rpx #888888',
+        color:
+          'linear-gradient(-135deg, #fedcba 0%, rgba(18, 52, 86, 1) 20%, #987 80%)'
+      }
+    },
+    {
+      type: 'qrcode',
+      content: 'https://github.com/Kujiale-Mobile/Painter',
+      css: {
+        top: '230rpx',
+        width: '120rpx',
+        height: '120rpx',
+        shadow: '10rpx 10rpx 5rpx #888888'
+      }
+    },
+    {
+      type: 'text',
+      text: "shadow: '10rpx 10rpx 5rpx #888888'",
+      css: {
+        left: '180rpx',
+        fontSize: '30rpx',
+        shadow: '10rpx 10rpx 5rpx #888888',
+        top: '290rpx'
+      }
+    }
+  ]
+}
+
+export default class sharePage extends wepy.page {
+  config = {
+    navigationBarTitleText: 'SharePage',
+    usingComponents: {
+      'canvas-drag': '/components/canvas-drag/index',
+      painter: '/components/painter/painter'
+    }
+  }
+  components = {}
+
+  data = {
+    userInfoTemplate: {},
+    filePath: '',
+    graph: {
+      x: 100,
+      type: 'text',
+      text: 'helloworld'
+    }
+  }
+
+  computed = {}
+
+  methods = {
+    onImgOK(res) {
+      console.log(`onImgOK res = ${JSON.stringify(res.detail)}`)
+      this.filePath = res.detail.path
+    },
+    async tapShare() {
+      console.log('tapShare')
+    },
+    onAddTest() {
+      this.setData({
+        graph: {
+          w: 120,
+          h: 120,
+          type: 'image',
+          url: '../../assets/images/test.jpg'
+        }
+      })
+    },
+
+    /**
+     * 添加图片
+     */
+    onAddImage() {
+      wx.chooseImage({
+        success: res => {
+          this.setData({
+            graph: {
+              w: 200,
+              h: 200,
+              type: 'image',
+              url: res.tempFilePaths[0]
+            }
+          })
+        }
+      })
+    },
+
+    /**
+     * 添加文本
+     */
+    onAddText() {
+      this.setData({
+        graph: {
+          type: 'text',
+          text: 'helloworld'
+        }
+      })
+    },
+
+    onShowPic() {
+      let filePath = this.filePath
+      wx.previewImage({
+        urls: [filePath]
+      })
+    },
+
+    /**
+     * 导出图片
+     */
+    onExport() {
+      let _this = this
+      CanvasDrag.export()
+        .then(filePath => {
+          console.log(filePath)
+          _this.filePath = filePath
+          console.log('export success....')
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    },
+
+    /**
+     * 改变文字颜色
+     */
+    onChangeColor() {
+      CanvasDrag.changFontColor('blue')
+    },
+
+    /**
+     * 改变背景颜色
+     */
+    onChangeBgColor() {
+      CanvasDrag.changeBgColor('yellow')
+    },
+
+    /**
+     * 改变背景照片
+     */
+    onChangeBgImage() {
+      CanvasDrag.changeBgImage('../../assets/images/test.jpg')
+    },
+
+    /**
+     * 导出当前画布为模板
+     */
+    onExportJSON() {
+      CanvasDrag.exportJson()
+        .then(imgArr => {
+          console.log(JSON.stringify(imgArr))
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    },
+
+    onImport() {
+      // 有背景
+      // let tempTheme = [{"type":"bgColor","color":"yellow"},{"type":"image","url":"../../assets/images/test.jpg","y":98.78423143832424,"x":143.78423143832424,"w":104.43153712335152,"h":104.43153712335152,"rotate":-12.58027482265038,"sourceId":null},{"type":"text","text":"helloworld","color":"blue","fontSize":24.875030530031438,"y":242.56248473498428,"x":119.57012176513672,"w":116.73966979980469,"h":34.87503053003144,"rotate":8.873370699754087}];
+      // 无背景
+      let tempTheme = [
+        {
+          type: 'image',
+          url: '../../assets/images/tab_api.png',
+          y: 103,
+          x: 91,
+          w: 120,
+          h: 120,
+          rotate: 0,
+          sourceId: null
+        },
+        {
+          type: 'text',
+          text: 'helloworld',
+          color: 'blue',
+          fontSize: 20,
+          y: 243,
+          x: 97,
+          rotate: 0
+        }
+      ]
+
+      CanvasDrag.initByArr(tempTheme)
+    },
+
+    onClearCanvas: function(event) {
+      let _this = this
+      _this.setData({ canvasBg: null })
+      CanvasDrag.clearCanvas()
+    }
+  }
+
+  onLoad() {
+    console.log(`onLoad`)
+    this.userInfoTemplate = templatePalette
+    this.$apply()
+  }
+
+  onShow() {
+    wepy.showShareMenu({
+      withShareTicket: true
+    })
+
+    setTimeout(() => {
+      console.log('cancel share menu')
+      wepy.hideShareMenu()
+    }, 3000)
+  }
+
+  // 调用hideShareMenu 之后的处理
+  offShareAppMessage(e) {
+    console.log(`e = ${JSON.stringify(e, null, '  ')}`)
+    console.log('offShareAppMessage')
+  }
+
+  async syncHandle() {
+    let _this = this
+    await CanvasDrag.export()
+      .then(filePath => {
+        console.log(filePath)
+        return {
+          title: '自定义，一般写小程序的名字',
+          path: '/pages/index',
+          imageUrl: _this.data.filePath, // 5:4
+          query: ' key1=val1&key2=val2', // wx.getLaunchOptionsSync() 或 wx.onShow() 获取启动参数中的 query
+          success: function(res) {
+            // 转发成功之后的回调
+            if (res.errMsg === 'shareAppMessage:ok') {
+              console.log('success')
+            }
+          },
+          fail: function(res) {
+            // 转发失败之后的回调
+            if (res.errMsg === 'shareAppMessage:fail cancel') {
+              // 用户取消转发
+              console.log('cancel')
+            } else if (res.errMsg === 'shareAppMessage:fail') {
+              // 转发失败，其中 detail message 为详细失败信息
+            }
+          },
+          complete: function(res) {
+            // 不管成功失败都会执行
+          }
+        }
+      })
+      .catch(e => {
+        console.error(e)
+      })
+  }
+
+  // canvas截图分享有问题
+  // 换用painter，分享后还是有问题
+  async onShareAppMessage(e) {
+    console.log(`onShareAppMessage = ${JSON.stringify(e, null, '  ')}`)
+    let _this = this
+    // await this.syncHandle()
+    let imageUrl = _this.filePath
+    console.log(`imageUrl = ${JSON.stringify(imageUrl, null, '  ')}`)
+
+    return {
+      title: '自定义，一般写小程序的名字',
+      path: '/pages/index',
+      imageUrl: imageUrl, // 5:4
+      query: ' key1=val1&key2=val2', // wx.getLaunchOptionsSync() 或 wx.onShow() 获取启动参数中的 query
+      success: function(res) {
+        // 转发成功之后的回调
+        if (res.errMsg === 'shareAppMessage:ok') {
+          console.log('success')
+        }
+      },
+      fail: function(res) {
+        // 转发失败之后的回调
+        if (res.errMsg === 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+          console.log('cancel')
+        } else if (res.errMsg === 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+      complete: function(res) {
+        // 不管成功失败都会执行
+      }
+    }
+  }
+}
+</script>

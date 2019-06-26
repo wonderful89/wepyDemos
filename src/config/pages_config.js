@@ -14,7 +14,8 @@ const apiPages = {
   'weui: list': '/example/button',
   'weui: button': '/example/button',
   '流式录音测试': 'slice_recoder',
-  '微信登录': 'wechat_login'
+  '微信登录': 'wechat_login',
+  '分享': 'share_info'
 }
 
 const componentPages = {
@@ -22,12 +23,15 @@ const componentPages = {
 }
 
 const appPages = [
+  'pages/api/share_info',
+
   'pages/framework/index',
   'pages/framework/redux',
 
   'pages/api/index',
   'pages/api/slice_recoder',
   'pages/api/wechat_login',
+  // 'pages/api/share_info',
 
   'pages/comp/index',
 
@@ -41,7 +45,14 @@ const appPages = [
   'example/flex'
 ]
 
-export default {
+// export default {
+// frameworkPages,
+// componentPages,
+// apiPages,
+// appPages
+// }
+
+module.exports = {
   frameworkPages,
   componentPages,
   apiPages,

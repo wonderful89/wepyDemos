@@ -34,19 +34,10 @@ export default class WechatLogin extends wepy.page {
   methods = {
     async clickLogin() {
       console.log('clickLogin')
-      wepy.login({
-        success: res => {
-          console.log(`res = ${JSON.stringify(res)}`)
-          wepy.showToast({
-            title: res.code
-          })
-        },
-        fail: () => {
-          console.log(`fail = `)
-        },
-        complete: () => {
-          console.log(`complete = `)
-        }
+      let res = await wepy.login()
+      console.log(`res = ${JSON.stringify(res)}`)
+      wepy.showToast({
+        title: res.code
       })
     }
   }
