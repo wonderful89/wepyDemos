@@ -11,16 +11,7 @@
 </style>
 <template>
     <view class="page">
-        <!-- <bgview>
-            <view class="bottom">Hello world</view>
-        </bgview>
-        <loading></loading>
-        <toast></toast> -->
         <commonview>common view bg</commonview>
-
-        <button @tap.stop="showBg">显示bgView</button>
-        <button @tap.stop="showLoading">显示Loading</button>
-        <button @tap.stop="showToast">显示Toast</button>
         <button @tap.stop="showCommonBg">Common显示bgView</button>
         <button @tap.stop="showCommonLoading">Common显示Loading</button>
         <button @tap.stop="showCommonToast">Common显示Toast</button>
@@ -29,12 +20,6 @@
 
 <script>
 import wepy from 'wepy'
-import bgview from '@/components/bg-view'
-import bgviewHelper from '@/components/bg-view-help'
-import loading from '@/components/loading'
-import loadingHelper from '@/components/loading-help'
-import toast from '@/components/toast'
-import toastHelper from '@/components/toast-help'
 import commonview from '@/components/common-view'
 import commonviewHelper from '@/components/common-view-help'
 
@@ -44,53 +29,28 @@ export default class CommonPage extends wepy.page {
     usingComponents: {}
   }
   components = {
-    bgview: bgview,
-    commonview: commonview,
-    toast: toast,
-    loading: loading
+    commonview: commonview
   }
 
   data = {}
 
   methods = {
-    showBg(e) {
-      console.log('showBg')
-      bgviewHelper.show()
-
-      setTimeout(() => {
-        bgviewHelper.hide()
-      }, 5000)
-    },
-
-    showLoading(e) {
-      console.log('showBg')
-      loadingHelper.show()
-
-      setTimeout(() => {
-        loadingHelper.hide()
-      }, 5000)
-    },
-
-    showToast(e) {
-      toastHelper.show('我定制的toast内容')
-    },
-
     showCommonBg(e) {
       console.log('showCommonBg')
       commonviewHelper.showBgView()
 
       setTimeout(() => {
         commonviewHelper.hide()
-      }, 5000)
+      }, 3000)
     },
 
     showCommonLoading(e) {
       console.log('showCommonLoading')
       commonviewHelper.showLoading()
 
-      // setTimeout(() => {
-      //   commonviewHelper.hide()
-      // }, 5000)
+      setTimeout(() => {
+        commonviewHelper.hide()
+      }, 3000)
     },
 
     showCommonToast(e) {
@@ -102,5 +62,7 @@ export default class CommonPage extends wepy.page {
   onLoad() {
     console.log('onLoad')
   }
+
+  assi
 }
 </script>

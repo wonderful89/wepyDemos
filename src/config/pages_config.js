@@ -21,7 +21,7 @@ const apiPages = {
 const componentPages = {
   'weui: list': '/example/button',
   'bgview': 'bgview',
-  'commonView': 'commonview'
+  'common-view': 'common-view'
 }
 
 const appPages = [
