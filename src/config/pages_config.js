@@ -19,11 +19,13 @@ const apiPages = {
 }
 
 const componentPages = {
-  'weui: list': '/example/button'
+  'weui: list': '/example/button',
+  'bgview': 'bgview',
+  'commonView': 'commonview'
 }
 
 const appPages = [
-  'pages/api/share_info',
+  'pages/comp/common-view',
 
   'pages/framework/index',
   'pages/framework/redux',
@@ -31,9 +33,11 @@ const appPages = [
   'pages/api/index',
   'pages/api/slice_recoder',
   'pages/api/wechat_login',
-  // 'pages/api/share_info',
+  'pages/api/share_info',
 
   'pages/comp/index',
+  'pages/comp/bgview',
+  // 'pages/comp/common-view',
 
   'pages/home',
   'pages/index',

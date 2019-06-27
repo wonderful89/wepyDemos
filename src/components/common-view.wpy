@@ -1,0 +1,40 @@
+<style lang="less">
+.common {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 103;
+}
+</style>
+<template>
+  <view class="common" style="visibility: {{open ? 'visible' : 'hidden'}};">
+      <bgview>
+          <view>Common fdasj lkfd sjfaj</view>
+      </bgview>
+      <loading></loading>
+      <toast></toast>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import bgview from '@/components/bg-view'
+import loading from '@/components/loading'
+import toast from '@/components/toast'
+import commonHelper from '@/components/common-view-help'
+
+export default class CommonView extends wepy.component {
+  components = {
+    bgview: bgview,
+    toast: toast,
+    loading: loading
+  }
+
+  data = {
+    open: false
+  }
+
+  onLoad() {
+    commonHelper.setObj(this)
+  }
+}
+</script>

@@ -1,0 +1,76 @@
+<style lang="less">
+.page {
+  width: 100%;
+  height: 100%;
+  font-size: 30rpx;
+  color: black;
+  .bottom {
+    height: 200rpx;
+  }
+}
+</style>
+<template>
+    <view class="page">
+        <bgview>
+            <view class="bottom">Hello world</view>
+        </bgview>
+        <loading></loading>
+        <toast></toast>
+
+        <button @tap.stop="showBg">显示bgView</button>
+        <button @tap.stop="showLoading">显示Loading</button>
+        <button @tap.stop="showToast">显示Toast</button>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import bgview from '@/components/bg-view'
+import bgviewHelper from '@/components/bg-view-help'
+import loading from '@/components/loading'
+import loadingHelper from '@/components/loading-help'
+import toast from '@/components/toast'
+import toastHelper from '@/components/toast-help'
+
+export default class BgPage extends wepy.page {
+  config = {
+    navigationBarTitleText: 'BgPage',
+    usingComponents: {}
+  }
+  components = {
+    bgview: bgview,
+    toast: toast,
+    loading: loading
+  }
+
+  data = {}
+
+  methods = {
+    showBg(e) {
+      console.log('showBg')
+      bgviewHelper.show()
+
+      setTimeout(() => {
+        bgviewHelper.hide()
+      }, 5000)
+    },
+
+    showLoading(e) {
+      console.log('showBg')
+      loadingHelper.show()
+
+      setTimeout(() => {
+        loadingHelper.hide()
+      }, 5000)
+    },
+
+    showToast(e) {
+      toastHelper.show('我定制的toast内容')
+    }
+  }
+
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>

@@ -1,0 +1,64 @@
+<style lang="less">
+.outer-toast {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .mask {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .toast {
+    position: absolute;
+    padding: 20rpx 20rpx 20rpx 20rpx;
+    border-radius: 20rpx;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    opacity: 0;
+    // transform: translate3d(0, 110%, 0);
+    transition: all 0.5s ease;
+    &.open {
+      opacity: 1;
+    }
+  }
+}
+</style>
+<template>
+  <view class="outer-toast" style="visibility: {{open ? 'visible' : 'hidden'}};">
+      <view class="mask" @tap.stop="maskTap" wx:if="{{mask}}"></view>
+      <view class="toast {{open ? 'open' : ''}}">{{text}}
+      </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import helper from './toast-help'
+
+export default class Toast extends wepy.component {
+  data = {
+    text: '这是toast默认文本',
+    open: false, // 是否显示当前view
+    mask: false // 是否显示mask
+  }
+
+  methods = {
+    maskTap() {
+      this.open = false
+      this.$apply()
+    }
+  }
+
+  onLoad() {
+    console.log('componten load')
+    helper.setObj(this)
+  }
+}
+</script>

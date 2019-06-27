@@ -1,0 +1,72 @@
+<style lang="less">
+.outer-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  .mask {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 120rpx;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    transform: translate3d(0, 110%, 0);
+    transition: all 0.5s ease;
+    &.open {
+      transform: translate3d(0%, 0, 0);
+    }
+  }
+}
+</style>
+<template>
+  <view class="outer-bg" style="visibility: {{open ? 'visible' : 'hidden'}};">
+      <view class="mask" @tap.stop="maskTap" wx:if="{{mask}}"></view>
+      <view class="content {{open ? 'open' : ''}}">
+          <slot></slot>
+      </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import helper from './bg-view-help'
+
+export default class BgView extends wepy.component {
+  props = {
+    // open: {
+    //   type: Boolean,
+    //   default: false
+    // }
+  }
+
+  data = {
+    open: false, // 是否显示当前view
+    mask: false // 是否显示mask
+  }
+
+  methods = {
+    tap() {
+      this.open = false
+      this.$apply()
+    },
+    maskTap() {
+      this.open = false
+      this.$apply()
+    }
+  }
+
+  onLoad() {
+    helper.setObj(this)
+  }
+}
+</script>

@@ -84,18 +84,18 @@ export default class extends wepy.app {
   }
 
   async getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    let res = await wepy.getUserInfo({
-      success(res) {
-        console.log(`res = ${JSON.stringify(res, null, '  ')}`)
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
-    })
-    console.log(`res2 = ${JSON.stringify(res, null, '  ')}`)
+    // const that = this
+    // if (this.globalData.userInfo) {
+    //   return this.globalData.userInfo
+    // }
+    // let res = await wepy.getUserInfo({
+    //   success(res) {
+    //     console.log(`res = ${JSON.stringify(res, null, '  ')}`)
+    //     that.globalData.userInfo = res.userInfo
+    //     cb && cb(res.userInfo)
+    //   }
+    // })
+    // console.log(`res2 = ${JSON.stringify(res, null, '  ')}`)
   }
 }
 </script>
