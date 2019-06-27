@@ -25,7 +25,7 @@ const componentPages = {
 }
 
 const appPages = [
-  'pages/comp/common-view',
+  // 'pages/comp/common-view',
 
   'pages/framework/index',
   'pages/framework/redux',
@@ -37,7 +37,7 @@ const appPages = [
 
   'pages/comp/index',
   'pages/comp/bgview',
-  // 'pages/comp/common-view',
+  'pages/comp/common-view',
 
   'pages/home',
   'pages/index',

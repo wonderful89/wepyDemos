@@ -66,12 +66,7 @@ export default class BgView extends wepy.component {
   }
 
   onLoad() {
-    console.log('bg onLoad')
     helper.setObj(this)
-  }
-
-  onShow() {
-    console.log('bg onShow')
   }
 }
 </script>
