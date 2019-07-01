@@ -16,21 +16,25 @@
         </bgview>
         <loading></loading>
         <toast></toast>
+        <alert></alert>
 
         <button @tap.stop="showBg">显示bgView</button>
         <button @tap.stop="showLoading">显示Loading</button>
         <button @tap.stop="showToast">显示Toast</button>
+        <button @tap.stop="showAlert">显示Alert</button>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import bgview from '@/components/bg-view'
-import bgviewHelper from '@/components/bg-view-help'
-import loading from '@/components/loading'
-import loadingHelper from '@/components/loading-help'
-import toast from '@/components/toast'
-import toastHelper from '@/components/toast-help'
+import bgview from '@/components/common/bg-view'
+import bgviewHelper from '@/components/common/bg-view-help'
+import loading from '@/components/common/loading'
+import loadingHelper from '@/components/common/loading-help'
+import toast from '@/components/common/toast'
+import toastHelper from '@/components/common/toast-help'
+import alert from '@/components/common/alert'
+import alertHelper from '@/components/common/alert-help'
 
 export default class BgPage extends wepy.page {
   config = {
@@ -40,6 +44,7 @@ export default class BgPage extends wepy.page {
   components = {
     bgview: bgview,
     toast: toast,
+    alert: alert,
     loading: loading
   }
 
@@ -66,6 +71,13 @@ export default class BgPage extends wepy.page {
 
     showToast(e) {
       toastHelper.show('我定制的toast内容')
+    },
+    showAlert(e) {
+      alertHelper.show({
+        cancel: () => {
+          console.log('custom cancel action')
+        }
+      })
     }
   }
 

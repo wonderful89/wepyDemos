@@ -1,7 +1,9 @@
-import bgviewHelper from '@/components/bg-view-help'
-import loadingHelper from '@/components/loading-help'
-import toastHelper from '@/components/toast-help'
+import bgviewHelper from './bg-view-help'
+import loadingHelper from './loading-help'
+import toastHelper from './toast-help'
+import alertHelper from './alert-help'
 
+// let alertParams = alertHelper.params;
 let _innerObj;
 
 function setObj(obj) {
@@ -31,10 +33,14 @@ function showToast(text = '', params = {
     toastHelper.show(text, params)
     _innerObj.open = true;
     _innerObj.$apply()
-    setTimeout(() => {
-      _innerObj.open = false;
-      _innerObj.$apply()
-    }, params.duration)
+  }
+}
+
+function showAlert(params) {
+  if (_innerObj) {
+    alertHelper.show(params)
+    _innerObj.open = true;
+    _innerObj.$apply()
   }
 }
 
@@ -43,6 +49,7 @@ function hide() {
     _innerObj.open = false;
     bgviewHelper.hide()
     loadingHelper.hide()
+    alertHelper.hide()
     _innerObj.$apply()
   }
 }
@@ -51,6 +58,7 @@ export default {
   showBgView,
   showLoading,
   showToast,
+  showAlert,
   hide,
   setObj
 }

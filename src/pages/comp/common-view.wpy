@@ -7,6 +7,11 @@
   .bottom {
     height: 200rpx;
   }
+  .space {
+    width: 100%;
+    height: 1600rpx;
+    background: rgba(255, 0, 0, 0.3);
+  }
 }
 </style>
 <template>
@@ -15,13 +20,15 @@
         <button @tap.stop="showCommonBg">Common显示bgView</button>
         <button @tap.stop="showCommonLoading">Common显示Loading</button>
         <button @tap.stop="showCommonToast">Common显示Toast</button>
+        <button @tap.stop="showCommonAlert">Common显示Alert</button>
+        <view class="space"></view>
     </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import commonview from '@/components/common-view'
-import commonviewHelper from '@/components/common-view-help'
+import commonview from '@/components/common/common-view'
+import commonviewHelper from '@/components/common/common-view-help'
 
 export default class CommonPage extends wepy.page {
   config = {
@@ -56,6 +63,15 @@ export default class CommonPage extends wepy.page {
     showCommonToast(e) {
       console.log('showCommonToast')
       commonviewHelper.showToast('我定制的toast内容22')
+    },
+    showCommonAlert(e) {
+      console.log('showCommonAlert')
+      commonviewHelper.showAlert({
+        text: 'common title',
+        cancel: () => {
+          console.log('common alert action')
+        }
+      })
     }
   }
 

@@ -1,31 +1,35 @@
 <style lang="less">
 .common {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 103;
+  // width: 100%;
+  // height: 100%;
+  // z-index: 103;
+  // background: rgba(0, 0, 0, 0.6);
 }
 </style>
 <template>
   <view class="common" style="visibility: {{open ? 'visible' : 'hidden'}};">
       <bgview>
-          <view>Common fdasj lkfd sjfaj</view>
+          <slot></slot>
       </bgview>
       <loading></loading>
       <toast></toast>
+      <alert></alert>
   </view>
 </template>
 <script>
 import wepy from 'wepy'
-import bgview from '@/components/bg-view'
-import loading from '@/components/loading'
-import toast from '@/components/toast'
-import commonHelper from '@/components/common-view-help'
+import bgview from './bg-view'
+import loading from './loading'
+import toast from './toast'
+import alert from './alert'
+import commonHelper from './common-view-help'
 
 export default class CommonView extends wepy.component {
   components = {
     bgview: bgview,
     toast: toast,
+    alert: alert,
     loading: loading
   }
 
@@ -35,6 +39,12 @@ export default class CommonView extends wepy.component {
 
   onLoad() {
     commonHelper.setObj(this)
+  }
+
+  hideView() {
+    console.log('common hideView')
+    this.open = false
+    this.$apply()
   }
 }
 </script>

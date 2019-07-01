@@ -1,0 +1,248 @@
+<style lang="less">
+@containerWidth: 542rpx;
+@lineColor: rgba(0, 0, 0, 0.1);
+@defaultPurple: #a04cf7;
+
+.outer-alert {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  .mask {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .myalert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    &.open {
+      opacity: 1;
+    }
+    &-container {
+      width: @containerWidth;
+      // height: 153rpx * 2 + 100rpx;
+      margin: auto;
+      &-contain {
+        width: @containerWidth;
+        // height: 153rpx * 2;
+        border-radius: 24rpx;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        &-head {
+          margin: 60rpx 0 60rpx 0;
+          font-size: 30rpx;
+          width: @containerWidth;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          // background: red;
+          &-text1 {
+            margin: 5rpx 0rpx 5rpx 0rpx;
+            margin: 0 30rpx 0 30rpx;
+            text-align: center;
+            white-space: normal;
+          }
+        }
+        &-bottom {
+          left: 0;
+          bottom: 0;
+          height: 90rpx;
+          width: @containerWidth;
+          font-size: 34rpx;
+          color: @defaultPurple;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          border-top: solid 1px @lineColor;
+          &-left {
+            flex: 1;
+            height: 90rpx;
+            line-height: 90rpx;
+          }
+          &-mid {
+            width: 1rpx;
+            height: 90rpx;
+            background: @lineColor;
+          }
+          &-right {
+            flex: 1;
+            height: 90rpx;
+            line-height: 90rpx;
+          }
+        }
+      }
+      &-temp {
+        width: @containerWidth;
+        height: 100rpx;
+        // background: red;
+      }
+    }
+
+    &-container2 {
+      width: @containerWidth;
+      height: 153rpx * 2;
+      margin: auto;
+      // background: red;
+      &-contain {
+        width: @containerWidth;
+        height: 153rpx * 2;
+        border-radius: 24rpx;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        &-head {
+          margin-top: 60rpx;
+          margin-bottom: 60rpx;
+          font-size: 30rpx;
+          width: @containerWidth;
+          height: 153rpx * 2 - 90rpx - 120rpx;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          // background: red;
+          &-text1,
+          &-text2 {
+            margin-top: 5rpx;
+            margin-bottom: 5rpx;
+            text-align: center;
+            width: @containerWidth;
+          }
+        }
+        &-bottom {
+          top: 153rpx * 2 - 90rpx - 120rpx;
+          left: 0;
+          // bottom: 0;
+          height: 90rpx;
+          width: @containerWidth;
+          font-size: 34rpx;
+          color: @defaultPurple;
+          display: flex;
+          align-items: center;
+          text-align: center;
+          border-top: solid 1px @lineColor;
+          &-left {
+            width: @containerWidth / 2 - 2rpx;
+            // border-right: solid 1px @lineColor;
+            height: 90rpx;
+            line-height: 90rpx;
+          }
+          &-mid {
+            width: 1rpx;
+            height: 90rpx;
+            background: @lineColor;
+          }
+          &-right {
+            width: @containerWidth / 2;
+            height: 90rpx;
+            line-height: 90rpx;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class="outer-alert" style="visibility: {{open ? 'visible' : 'hidden'}};">
+      <cover-view class="myalert {{open ? 'open' : ''}}" catchtap="onTap" bindtouchstart="myTouchStart" bindtouchend="myTouchEnd">
+        <cover-view wx:if="{{!isiOS10Little}}" class="myalert-container">
+            <cover-view class="myalert-container-contain">
+                <cover-view class="myalert-container-contain-head">
+                    <cover-view class="myalert-container-contain-head-text1">{{text}}</cover-view>
+                </cover-view>
+                <cover-view class="myalert-container-contain-bottom" wx:if="{{buttonTexts.length >= 2}}">
+                    <cover-view class="myalert-container-contain-bottom-left" catchtap="cancel">{{buttonTexts[0]}}</cover-view>
+                    <cover-view class="myalert-container-contain-bottom-mid"></cover-view>
+                    <cover-view class="myalert-container-contain-bottom-right" catchtap="confirm">{{buttonTexts[1]}}</cover-view>
+                </cover-view>
+                <cover-view class="myalert-container-contain-bottom" wx:if="{{buttonTexts.length === 1}}">
+                    <cover-view class="myalert-container-contain-bottom-left" catchtap="cancel">{{buttonTexts[0]}}</cover-view>
+                </cover-view>
+            </cover-view>
+            <cover-view class="myalert-container-temp"></cover-view>
+        </cover-view>
+        <cover-view wx:if="{{isiOS10Little}}" class="myalert-container2">
+            <cover-view class="myalert-container2-contain">
+                <cover-view class="myalert-container2-contain-head">
+                    <cover-view class="myalert-container2-contain-head-text1">{{text}}</cover-view>
+                </cover-view>
+                <cover-view class="myalert-container2-contain-bottom">
+                    <cover-view class="myalert-container2-contain-bottom-left" catchtap="cancel">{{buttonTexts[0]}}</cover-view>
+                    <cover-view class="myalert-container2-contain-bottom-mid"></cover-view>
+                    <cover-view class="myalert-container2-contain-bottom-right" catchtap="confirm">{{buttonTexts[1]}}</cover-view>
+                </cover-view>
+            </cover-view>
+        </cover-view>
+    </cover-view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import helper from './alert-help'
+
+export default class BgView extends wepy.component {
+  data = {
+    open: false, // 是否显示当前view
+    isiOS10Little: false,
+    buttonTexts: ['确定', 'qq'],
+    text: ['你好faj\fsjdakl发啊辅导费阿发十几分发多少发顺丰']
+  }
+
+  methods = {
+    cancel(e) {
+      this.open = false
+      this.cancel && this.cancel()
+      this.$apply()
+    },
+    confirm(e) {
+      this.open = false
+      this.confirm && this.confirm()
+      this.$apply()
+    },
+    onTap(e) {},
+    myTouchEnd(e) {},
+    myTouchStart(e) {},
+    dismiss(e) {
+      this.open = false
+      this.$apply()
+    }
+  }
+
+  onLoad() {
+    helper.setObj(this)
+    let sysInfo = wx.getSystemInfoSync()
+    console.log('sysInfo = ', sysInfo) // iOS 10.0.1
+    let isiPhone =
+      sysInfo.model.indexOf('iPhone') >= 0 && sysInfo.system.indexOf('iOS') >= 0
+    if (isiPhone) {
+      let iOSVersion = parseFloat(sysInfo.system.split(' ')[1])
+      console.log('iOSVersion = ', iOSVersion)
+      if (iOSVersion <= 10.999) {
+        // iOS11 以下
+        this.setData({
+          isiOS10Little: true
+        })
+      }
+    }
+  }
+}
+</script>

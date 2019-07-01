@@ -14,6 +14,8 @@ function show(text = '这是默认的text', params = {
 
     setTimeout(() => {
       hide()
+      let parent = _innerObj.$parent
+      parent && parent.hideView && parent.hideView()
     }, params.duration)
   }
 }
