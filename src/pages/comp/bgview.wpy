@@ -6,6 +6,8 @@
   color: black;
   .bottom {
     height: 200rpx;
+    width: 300rpx;
+    background: red;
   }
 }
 </style>
@@ -53,27 +55,29 @@ export default class BgPage extends wepy.page {
   methods = {
     showBg(e) {
       console.log('showBg')
-      bgviewHelper.show()
+      bgviewHelper.show(this)
 
+      let _this = this
       setTimeout(() => {
-        bgviewHelper.hide()
+        bgviewHelper.hide(_this)
       }, 5000)
     },
 
     showLoading(e) {
       console.log('showBg')
-      loadingHelper.show()
+      loadingHelper.show(this)
 
+      let _this = this
       setTimeout(() => {
-        loadingHelper.hide()
+        loadingHelper.hide(_this)
       }, 5000)
     },
 
     showToast(e) {
-      toastHelper.show('我定制的toast内容')
+      toastHelper.show(this, '我定制的toast内容')
     },
     showAlert(e) {
-      alertHelper.show({
+      alertHelper.show(this, {
         cancel: () => {
           console.log('custom cancel action')
         }

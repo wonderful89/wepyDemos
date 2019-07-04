@@ -4,20 +4,12 @@ function setObj(obj) {
   _innerObj = obj
 }
 
-function show() {
-  if (_innerObj) {
-    // console.log('loading help show')
-    // console.log(`_innerObj = ${JSON.stringify(_innerObj.data, null, '  ')}`)
-    _innerObj.open = true;
-    _innerObj.$apply()
-  }
+function show(page) {
+  page.$invoke('loading', 'show')
 }
 
-function hide() {
-  if (_innerObj) {
-    _innerObj.open = false;
-    _innerObj.$apply()
-  }
+function hide(page) {
+  page && page.$invoke('loading', 'hide')
 }
 
 export default {

@@ -20,10 +20,10 @@
     height: 142rpx;
     text-align: center;
     transition: all 0.5s ease;
-    background: blue;
-    // background-image: url('https://stdl.qq.com/stdl/translator/yyj/common/book_loading.webp');
-    // background-repeat: no-repeat;
-    // background-size: cover;
+    // background: blue;
+    background-image: url('https://stdl.qq.com/stdl/translator/yyj/common/book_loading.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
     &.open {
       transform: translate3d(0%, 0, 0);
     }
@@ -56,6 +56,16 @@ export default class LoadingView extends wepy.component {
       this.open = false
       this.$apply()
     }
+  }
+
+  show() {
+    this.open = true
+    this.$apply()
+  }
+
+  hide() {
+    this.open = false
+    this.$apply()
   }
 
   onLoad() {

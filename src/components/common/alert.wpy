@@ -77,7 +77,7 @@
             line-height: 90rpx;
           }
           &-mid {
-            width: 1rpx;
+            width: 2rpx;
             height: 90rpx;
             background: @lineColor;
           }
@@ -243,6 +243,16 @@ export default class BgView extends wepy.component {
         })
       }
     }
+  }
+
+  show(params) {
+    this.open = true
+    Object.assign(this, params)
+    this.$apply()
+  }
+  hide() {
+    this.open = false
+    this.$apply()
   }
 }
 </script>

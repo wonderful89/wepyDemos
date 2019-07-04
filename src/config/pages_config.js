@@ -7,7 +7,8 @@ const frameworkPages = {
   'weui: flex': '/example/flex',
   'weui: grid': '/example/grid',
   'weui: actionsheet': '/example/actionsheet',
-  'Redux测试': 'redux'
+  'Redux测试': 'redux',
+  'Wepy 子组件传值测试': 'wepy-array'
 }
 
 const apiPages = {
@@ -29,6 +30,7 @@ const appPages = [
 
   'pages/framework/index',
   'pages/framework/redux',
+  'pages/framework/wepy-array',
 
   'pages/api/index',
   'pages/api/slice_recoder',

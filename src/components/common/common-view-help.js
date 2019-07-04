@@ -12,7 +12,7 @@ function setObj(obj) {
 
 function showBgView() {
   if (_innerObj) {
-    bgviewHelper.show()
+    bgviewHelper.show(_innerObj)
     _innerObj.open = true;
     _innerObj.$apply()
   }
@@ -21,7 +21,7 @@ function showBgView() {
 function showLoading() {
   if (_innerObj) {
     _innerObj.open = true;
-    loadingHelper.show()
+    loadingHelper.show(_innerObj)
     _innerObj.$apply()
   }
 }
@@ -30,7 +30,7 @@ function showToast(text = '', params = {
   duration: 1800
 }) {
   if (_innerObj) {
-    toastHelper.show(text, params)
+    toastHelper.show(_innerObj, text, params)
     _innerObj.open = true;
     _innerObj.$apply()
   }
@@ -38,7 +38,7 @@ function showToast(text = '', params = {
 
 function showAlert(params) {
   if (_innerObj) {
-    alertHelper.show(params)
+    alertHelper.show(_innerObj, params)
     _innerObj.open = true;
     _innerObj.$apply()
   }
@@ -47,9 +47,9 @@ function showAlert(params) {
 function hide() {
   if (_innerObj) {
     _innerObj.open = false;
-    bgviewHelper.hide()
-    loadingHelper.hide()
-    alertHelper.hide()
+    bgviewHelper.hide(_innerObj)
+    loadingHelper.hide(_innerObj)
+    alertHelper.hide(_innerObj)
     _innerObj.$apply()
   }
 }

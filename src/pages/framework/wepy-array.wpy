@@ -1,0 +1,67 @@
+<style lang="less">
+</style>
+<template>
+    <view class="page">
+        <view class="list-header">用于测试数组传递的方式</view>
+        <view>
+            <!-- <text>list 传入</text>
+            <wepyarray :list="list"></wepyarray> -->
+        </view>
+        
+        <view>
+            <!-- <text>listArr[0] 传入</text>
+            <wepyarray :list="listArr[0]"></wepyarray> -->
+        </view>
+        <view>
+            <!-- <text>listDict.dict</text>
+            <wepyarray :list="listDict.dict"></wepyarray> -->
+        </view>
+       
+       <view>
+            <!-- <text>listComp 传入</text>
+            <wepyarray :list="listComp"></wepyarray> -->
+        </view>
+        <view>
+            <!-- <text>listComp2 传入</text>
+            <wepyarray :list="listComp2"></wepyarray> -->
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import wepyarray from '@/components/wepy-array-component'
+
+export default class WepyArray extends wepy.page {
+  config = {
+    navigationBarTitleText: 'Framework Pages'
+  }
+  components = {
+    wepyarray
+  }
+
+  computed = {
+    listComp() {
+      return this.data.listDict.dict
+    },
+    listComp2() {
+      return this.data.listArr[1]
+    }
+  }
+
+  data = {
+    use: 1,
+    list: [{ title: '标题1' }, { title: '标题2' }, { title: '标题3' }],
+    listDict: {
+      dict: [{ title: '标题1' }, { title: '标题2' }, { title: '标题3' }]
+    },
+    listArr: [
+      [{ title: '标题1' }, { title: '标题2' }, { title: '标题3' }],
+      [{ title: '标题11' }, { title: '标题22' }, { title: '标题33' }]
+    ]
+  }
+
+  onLoad() {}
+  onUnload() {}
+}
+</script>

@@ -6,7 +6,7 @@
   z-index: 101;
   .mask {
     position: absolute;
-    background: rgba(0, 0, 0, 0.1);
+    // background: rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 100%;
     left: 0;
@@ -14,17 +14,30 @@
   }
   .content {
     position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     min-height: 120rpx;
-    background: rgba(0, 0, 0, 0.8);
+    // background: rgba(0, 0, 0, 0.8);
     color: white;
     text-align: center;
-    transform: translate3d(0, 110%, 0);
-    transition: all 0.5s ease;
-    &.open {
+    &.bottom {
+      bottom: 0;
+      left: 0;
+      transition: all 0.5s ease;
+      transform: translate3d(0, 110%, 0);
+    }
+    &.bottom.open {
       transform: translate3d(0%, 0, 0);
+    }
+
+    &.center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      opacity: 0;
+    }
+    &.center.open {
+      opacity: 1;
     }
   }
 }
@@ -32,7 +45,7 @@
 <template>
   <view class="outer-bg" style="visibility: {{open ? 'visible' : 'hidden'}};">
       <view class="mask" @tap.stop="maskTap" wx:if="{{mask}}"></view>
-      <view class="content {{open ? 'open' : ''}}">
+      <view class="content {{open ? 'open' : ''}} {{type}}">
           <slot></slot>
       </view>
   </view>
@@ -50,8 +63,9 @@ export default class BgView extends wepy.component {
   }
 
   data = {
+    type: 'center', // 'bottom' 'center'
     open: false, // 是否显示当前view
-    mask: false // 是否显示mask
+    mask: true // 是否显示mask
   }
 
   methods = {
@@ -67,6 +81,15 @@ export default class BgView extends wepy.component {
 
   onLoad() {
     helper.setObj(this)
+  }
+
+  show() {
+    this.open = true
+    this.$apply()
+  }
+  hide() {
+    this.open = false
+    this.$apply()
   }
 }
 </script>
