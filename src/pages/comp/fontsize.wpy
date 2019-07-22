@@ -1,0 +1,72 @@
+<!-- 加载字体示例 -->
+<style lang='less'>
+@font-face {
+  font-family: iconfont;
+  src: url('https://stdl.qq.com/stdl/translator/yyj/iconfont.ttf');
+}
+
+.container {
+  font-family: 'iconfont';
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  .search {
+    &:before {
+      content: '\EA3A';
+      color: red;
+    }
+  }
+  .audio {
+    &:after {
+      content: '\EA3B';
+      color: red;
+    }
+  }
+  .select {
+    &:after {
+      content: '\EA3C';
+      color: red;
+    }
+  }
+  .select2 {
+    &:after {
+      content: '\EA3D';
+      color: blue;
+    }
+  }
+}
+</style>
+
+<template>
+  <view class='container'>
+      <view class='search'>search</view>
+      <view class='audio'>audio</view>
+      <view class='select'>select</view>
+      <view class='select2'>select2</view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: ''
+  }
+
+  data = {}
+
+  components = {}
+
+  methods = {}
+
+  events = {}
+
+  watch = {}
+
+  computed = {}
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>

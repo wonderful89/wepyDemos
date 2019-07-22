@@ -22,7 +22,9 @@ const apiPages = {
 const componentPages = {
   'weui: list': '/example/button',
   'bgview': 'bgview',
-  'common-view': 'common-view'
+  'common-view': 'common-view',
+  'fontsize': 'fontsize',
+  'map': 'map'
 }
 
 const appPages = [
@@ -40,6 +42,8 @@ const appPages = [
   'pages/comp/index',
   'pages/comp/bgview',
   'pages/comp/common-view',
+  'pages/comp/fontsize',
+  'pages/comp/map',
 
   'pages/home',
   'pages/index',

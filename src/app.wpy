@@ -34,11 +34,22 @@ wepy.$store = store
 export default class extends wepy.app {
   config = {
     pages: global.__PAGES__,
+    permission: {
+      'scope.userLocation': {
+        desc: '你的位置信息将用于小程序位置接口的效果展示'
+      }
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
+    },
+    plugins: {
+      myPlugin: {
+        version: '1.0.6',
+        provider: 'wx5bc2ac602a747594'
+      }
     },
     tabBar: {
       color: global.tabColor,

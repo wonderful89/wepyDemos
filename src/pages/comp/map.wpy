@@ -1,0 +1,53 @@
+<style lang='less'>
+.container {
+  position: absolute;
+  width: 100%;
+  left: -50%;
+}
+</style>
+<template>
+  <view class='container'>
+      <map-route route-info="{{routeInfo}}"></map-route>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+const myPlugin = requirePlugin('myPlugin')
+
+let routeInfo = {
+  startLat: 39.90469, // 起点纬度 选填
+  startLng: 116.40717, // 起点经度 选填
+  startName: '我的位置', // 起点名称 选填
+  endLat: 39.94055, // 终点纬度必传
+  endLng: 116.43207, // 终点经度 必传
+  endName: '来福士购物中心', // 终点名称 必传
+  mode: 'car' // 算路方式 选填
+}
+export default class MapPage extends wepy.page {
+  config = {
+    navigationBarTitleText: 'test',
+    usingComponents: {
+      'map-route': 'plugin://myPlugin/mapRoute'
+    }
+  }
+
+  data = {
+    routeInfo: routeInfo
+  }
+
+  components = {}
+
+  methods = {}
+
+  events = {}
+
+  watch = {}
+
+  computed = {}
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>
