@@ -1,0 +1,435 @@
+<style lang='less'>
+@takeButtonWH: 132rpx;
+@takeButtonContentWH: 132rpx - 32rpx;
+.mypage {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  font-family: 'PingFangSC-regular', 'Microsoft Yahei';
+  color: #ffffff;
+  font-size: 40rpx;
+  .camera {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    &-loading {
+      z-index: 10;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      // background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      &-icon {
+        width: 75rpx * 2;
+        height: 67rpx * 2;
+        background-image: url('https://stdl.qq.com/stdl/translator/yyj/common/book_loading.gif');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0% 0%;
+      }
+      &-text {
+        margin-top: 20rpx;
+        font-size: 32rpx;
+        color: white;
+      }
+    }
+    &-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      // background: rgba(0,0,0,0.2);
+    }
+    &-bottom {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 240rpx;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      &-take {
+        width: @takeButtonWH;
+        height: @takeButtonWH;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: @takeButtonWH / 2;
+        display: flex;
+        &:active {
+          opacity: 0.6;
+        }
+        &-content {
+          margin-left: 16rpx;
+          margin-top: 16rpx;
+          width: @takeButtonContentWH;
+          height: @takeButtonContentWH;
+          border-radius: @takeButtonContentWH / 2;
+          background: white;
+        }
+      }
+      &-album {
+        height: 80rpx;
+        width: 80rpx;
+        margin-left: 40rpx;
+        &:active {
+          opacity: 0.6;
+        }
+      }
+      &-right {
+        width: 120rpx;
+        height: 80rpx;
+      }
+    }
+    &-prompt {
+      position: absolute;
+      bottom: 205rpx;
+      text-align: center;
+      left: 0;
+      width: 100%;
+      font-size: 28rpx;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &-text {
+        position: relative;
+        padding: 15rpx 25rpx 15rpx 25rpx;
+        background: white;
+        border-radius: 15rpx;
+        color: rgba(0, 0, 0, 0.6);
+        margin: auto;
+      }
+      &-tri {
+        width: 0;
+        height: 0;
+        border-width: 12rpx;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+      }
+    }
+
+    &-content {
+      position: absulute;
+      width: 100%;
+      height: 800rpx;
+      vertical-align: center;
+      margin-top: 100rpx;
+      // background: red;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      @bgwidth : 520rpx;
+      &-bg {
+        position: absulute;
+        margin-top: 100rpx;
+        width: @bgwidth;
+        height: 800rpx;
+        background: white;
+        border-radius: 30rpx;
+        &-text {
+          text-align: center;
+          font-size: 30rpx;
+          color: black;
+          padding: 110rpx 0 20rpx 0;
+        }
+        &-example {
+          margin-left: (@bgwidth - 360rpx)/2;
+          width: 360rpx;
+          height: 300rpx * 2;
+          background-image: url('https://stdl.qq.com/stdl/translator/yyj/common/camera/scan_book_example.png');
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+      }
+      &-error {
+        position: absolute;
+        margin-top: 30rpx;
+        width: 221rpx * 2;
+        height: 70rpx * 2;
+        background-image: url('https://stdl.qq.com/stdl/translator/yyj/common/camera/camera_error_oh.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+    &-close {
+      top: 930rpx;
+      position: absolute;
+      width: 40rpx;
+      height: 40rpx;
+      text-align: center;
+      margin-left: -20rpx;
+      left: 50%;
+    }
+  }
+}
+</style>
+<template>
+  <view class="mypage">
+    <camera hidden="{{!(authorizedSuccess && !showloading)}}" class="camera" device-position="back" flash="auto" binderror="cameraError" bindstop="cameraStop">
+      <cover-view class="camera-bottom">
+        <cover-image class="camera-bottom-album" catchtap="enterAlbum" src="{{albumPath}}" bindload="loadSuccess" binderror="loadErr"></cover-image>
+        <cover-view class="camera-bottom-take" catchtap="takePhoto">
+          <cover-view class="camera-bottom-take-content"></cover-view>
+        </cover-view>
+        <cover-view class="camera-bottom-right"></cover-view>
+      </cover-view>
+      <cover-view class="camera-prompt">
+        <cover-view class="camera-prompt-text" wx:if="{{!result.show}}">{{inputs.promptText}}</cover-view>
+      </cover-view>
+      <cover-view class="camera-content" wx:if="{{result.show}}">
+        <cover-view class="camera-content-bg">
+          <cover-view class="camera-content-bg-text">{{errString}}</cover-view>
+          <cover-view class="camera-content-bg-example"></cover-view>
+        </cover-view>
+        <cover-view class="camera-content-error"></cover-view>
+      </cover-view>
+      <cover-image wx:if="{{result.show}}" class="camera-close" catchtap="close" src="http://stdl.qq.com/stdl/translator/yyj/common/nav_close.png" mode="widthFix"></cover-image>
+    </camera>
+    <view wx:if="{{showloading}}" class="camera">
+      <image class="camera-image" src="{{src}}" mode="widthFix"></image>
+      <view wx:if="{{showloading}}" class="camera-loading">
+        <view class="camera-loading-icon"></view>
+      </view>
+      <view class="camera-bottom">
+        <image class="camera-bottom-album" src="{{albumPath}}" mode="widthFix" catchtap="enterAlbum"></image>
+        <view class="camera-bottom-take" catchtap="takePhoto">
+          <view class="camera-bottom-take-content"></view>
+        </view>
+        <view class="camera-bottom-right"></view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Example extends wepy.component {
+  props = {
+    inputs: {
+      type: Object,
+      default: {}
+    }
+  }
+
+  data = {
+    albumPath:
+      'https://stdl.qq.com/stdl/translator/yyj/common/camera_album.png',
+    src: '', // 拍照或者本地图片src
+    showloading: false,
+    result: {
+      show: false,
+      code: 0
+    },
+    authorizedSuccess: false
+  }
+
+  computed = {
+    errString() {
+      let prompt = '需要拍摄清晰完整的英语课文哦'
+      let type = this.result.code
+      switch (type) {
+        case 50001:
+          prompt = '需要拍摄清晰完整的英语课文哦'
+          break
+        case 50002:
+          prompt = '你的课本正在支持中\n点击反馈督促我们吧'
+          break
+        case 50003:
+          prompt = '拍摄的内容不能跟读哦\n换一页试试吧'
+          break
+        case -1:
+        case -2:
+          prompt = '网络不太好，稍后重试'
+          break
+        default:
+          prompt += ''
+          break
+      }
+      return prompt
+    }
+  }
+
+  components = {}
+
+  methods = {
+    loadErr(e) {
+      console.log(`loadErr e = ${JSON.stringify(e)}`)
+    },
+    loadSuccess(e) {
+      // console.log(`loadSuccess e = ${JSON.stringify(e)}`)
+    },
+    async enterAlbum(e) {
+      console.log('enterAlbum')
+      if (this.showloading) {
+        return
+      }
+      let res = await wepy.chooseImage({
+        count: 1, // 默认9
+        sizeType: ['compressed'], // 可以指定是原图还是压缩图，, 'compressed' original
+        sourceType: ['album'] // 可以指定来源是相册还是相机 , 'camera' , 'album'
+      })
+      let tempFilePaths = res.tempFilePaths
+      if (tempFilePaths && tempFilePaths.length > 0) {
+        let firstAlbum = tempFilePaths[0]
+        this.handleSelectedPhoto(firstAlbum)
+      }
+    },
+    close() {
+      console.log('close')
+      this.data.result.show = false
+      this.data.showloading = true
+      this.$apply()
+    },
+    takePhoto() {
+      console.log('takePhoto')
+      if (this.showloading) {
+        return
+      }
+      if (!this.cameraContext) {
+        const ctx = wepy.createCameraContext()
+        this.cameraContext = ctx
+      }
+      console.log(`this.cameraContext = ${JSON.stringify(this.cameraContext)}`)
+      this.cameraContext.takePhoto({
+        quality: 'normal', // 'high', 'normal','low'
+        success: res => {
+          console.log(`success res = ${JSON.stringify(res)}`)
+          this.handleSelectedPhoto(res.tempImagePath)
+        },
+        fail: res => {
+          console.log('fail res = ', res)
+        }
+      })
+    }
+  }
+
+  events = {}
+
+  watch = {}
+
+  onLoad() {
+    console.log(`onLoad 11 = ${11}`)
+    this.onShowEvent()
+  }
+
+  async alertAuthorize() {
+    await wepy
+      .showModal({
+        title: '警告',
+        content: '没有相机权限，请先授权',
+        showCancel: true,
+        cancelText: '取消',
+        cancelColor: '#000000',
+        confirmText: '去授权',
+        confirmColor: '#3CC51F',
+        success: res => {
+          console.log(`qushouquan 1 = ${1}`)
+        }
+      })
+      .then(result => {
+        if (result.confirm) {
+          wepy.openSetting({ success: res => {} })
+        } else {
+          wepy.navigateBack({
+            delta: 1
+          })
+        }
+      })
+    this.$apply()
+  }
+
+  async onShowEvent() {
+    let authorized = await this.getAuthorizedValue('scope.camera')
+    console.log(`authorized authorized = ${authorized}`)
+    if (authorized === false) {
+      await this.alertAuthorize()
+    } else if (authorized === undefined) {
+      let res = await wepy.authorize({ scope: 'scope.camera' }).catch(e => {
+        console.log('authorize fail for firsttime, e = ', e)
+        return e
+      })
+      console.log('res = ', res)
+      if (res.errMsg === 'authorize:fail auth deny') {
+        await this.alertAuthorize()
+      } else {
+        this.authorizedSuccess = true
+      }
+      this.$apply()
+    } else {
+      this.authorizedSuccess = true
+      this.$apply()
+    }
+  }
+
+  onUnload() {
+    this.cameraContext = null
+  }
+
+  async getAuthorizedValue(scopeName) {
+    let res = await wepy.getSetting()
+    let retValue = null
+    if (res.errMsg === 'getSetting:ok') {
+      retValue = res.authSetting[scopeName]
+    }
+    return retValue
+  }
+  async handleSelectedPhoto(path) {
+    if (this.cameraContext) {
+      this.cameraContext.stopRecord({
+        success: res => {
+          console.log('stopRecord res = ', res)
+        },
+        fail: res => {
+          console.log('stopRecord fail res = ', res)
+          this.stopCameraError = true // 有些Android机型会出现stopError的情况，然后就不能拍照了。
+        }
+      })
+    }
+
+    this.src = path
+    this.showloading = true
+    this.$apply()
+    let that = this
+    setTimeout(async () => {
+      let rsp = await this.scanPhoto(path).catch(e => {
+        throw new Error(`requestPhoto fail: ${e}`)
+      })
+      if (
+        (rsp &&
+          rsp.data &&
+          rsp.data.contents &&
+          rsp.data.contents.length === 0) ||
+        rsp.code !== 0
+      ) {
+        console.log('this.result.show = true')
+        that.result.show = true
+        that.result.code = rsp.code
+        that.showloading = false
+        that.$apply()
+      } else {
+        console.log(`next page`)
+        this.$emit('recognizeFinish', {
+          data: rsp.data
+        })
+      }
+    }, 10)
+  }
+
+  async scanPhoto(path) {
+    return new Promise((resolve, reject) => {
+      this.$emit('scanPhoto', {
+        path,
+        cb: res => {
+          resolve(res)
+        }
+      })
+    })
+  }
+}
+</script>

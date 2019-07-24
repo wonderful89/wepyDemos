@@ -1,0 +1,49 @@
+<style lang='less'>
+</style>
+<template>
+  <view class='container'>
+      <scan-photo @scanPhoto.user="scanPhoto" @recognizeFinish.user="recognizeFinish" :inputs.sync="params"></scan-photo>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import scanPhoto from '@/components/scan-photo'
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: 'photo scan'
+  }
+
+  data = {
+    params: {
+      promptText: '拍摄整页的哦22'
+    }
+  }
+
+  components = {
+    'scan-photo': scanPhoto
+  }
+
+  methods = {
+    scanPhoto(obj) {
+      console.log('scanPhoto parents.')
+      setTimeout(() => {
+        obj.cb &&
+          obj.cb({
+            code: 50001
+          })
+      }, 3000)
+    },
+    recognizeFinish(data) {
+      console.log('recognizeFinish')
+      wepy.navigateBack({
+        delta: 1
+      })
+    }
+  }
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>

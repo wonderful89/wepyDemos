@@ -24,11 +24,13 @@ const componentPages = {
   'bgview': 'bgview',
   'common-view': 'common-view',
   'fontsize': 'fontsize',
-  'map': 'map'
+  'map': 'map',
+  'circle': 'circle',
+  'photo': 'photo'
 }
 
 const appPages = [
-  // 'pages/comp/common-view',
+  // 'pages/comp/photo',
 
   'pages/framework/index',
   'pages/framework/redux',
@@ -44,6 +46,8 @@ const appPages = [
   'pages/comp/common-view',
   'pages/comp/fontsize',
   'pages/comp/map',
+  'pages/comp/circle',
+  'pages/comp/photo',
 
   'pages/home',
   'pages/index',

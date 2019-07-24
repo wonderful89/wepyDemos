@@ -1,0 +1,162 @@
+<style lang='less'>
+@borderwidth: 8rpx;
+.page {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  //   box-sizing: border-box;
+  &-header {
+    width: 100%;
+    height: 200rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background: white;
+    &-inner {
+      position: relative;
+      width: 160rpx;
+      height: 160rpx;
+      border: solid @borderwidth rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .wrap {
+        position: absolute;
+        width: 120rpx;
+        height: 120rpx;
+        .left {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 60rpx;
+          height: 120rpx;
+          overflow: hidden;
+          .circle {
+            left: 0;
+            border-top-color: red;
+            border-left-color: red;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+            transform: rotate(-45deg);
+          }
+        }
+        .right {
+          width: 60rpx;
+          height: 120rpx;
+          position: absolute;
+          top: 0;
+          right: 0;
+          overflow: hidden;
+          .circle {
+            right: 0;
+            border-top-color: red;
+            border-right-color: red;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            transform: rotate(45deg);
+          }
+        }
+
+        .circle {
+          box-sizing: border-box; // 注意这里的设置
+          position: absolute;
+          border-width: @borderwidth;
+          border-style: solid;
+          top: 0;
+          width: 120rpx;
+          height: 120rpx;
+          border-radius: 50%;
+        }
+      }
+      &:nth-child(1) {
+        .left .circle {
+          border-top-color: blue;
+          border-left-color: blue;
+        }
+        .right .circle {
+          border-top-color: blue;
+          border-right-color: blue;
+        }
+      }
+      &:nth-child(2) {
+        .left .circle {
+          border-top-color: greenyellow;
+          border-left-color: greenyellow;
+        }
+        .right .circle {
+          border-top-color: greenyellow;
+          border-right-color: greenyellow;
+        }
+      }
+      &:nth-child(3) {
+        .left .circle {
+          border-top-color: palevioletred;
+          border-left-color: palevioletred;
+        }
+        .right .circle {
+          border-top-color: palevioletred;
+          border-right-color: palevioletred;
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+  <view class='page'>
+      <view class='page-header'>
+          <repeat for="{{items}}" key="index" index="index" item="item">
+            <view class='page-header-inner'>
+                <view class='wrap'>
+                    <view class='left' wx:if="{{item.rate > 0.5}}">
+                        <view class='circle' style="transform:rotate({{360 * item.rate - 360 -45}}deg);"></view>
+                    </view>
+                    <view class='right'>
+                        <view class='circle' style="transform:rotate({{item.rate > 0.5 ? 45 : (360 * item.rate - 180 + 45)}}deg);"></view>
+                    </view>
+                </view>
+            </view>
+          </repeat>
+      </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: 'circle'
+  }
+
+  data = {
+    items: [
+      {
+        rate: 0.8
+      },
+      {
+        rate: 0.2
+      },
+      {
+        rate: 0.4
+      }
+    ]
+  }
+
+  components = {}
+
+  methods = {}
+
+  events = {}
+
+  watch = {}
+
+  computed = {}
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>

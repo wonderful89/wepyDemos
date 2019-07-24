@@ -13,7 +13,7 @@
 
 <script>
 import wepy from 'wepy'
-const myPlugin = requirePlugin('myPlugin')
+// const myPlugin = requirePlugin('myPlugin')
 
 let routeInfo = {
   startLat: 39.90469, // 起点纬度 选填
