@@ -1,0 +1,39 @@
+<style lang='less'>
+</style>
+<template>
+  <view class='container'></view>
+</template>
+
+<script>
+import wepy from 'wepy'
+// import g from '@/libs/global'
+import g from '../../libs/global'
+// var g = require('../../libs/global')
+
+export default class Example2 extends wepy.page {
+  config = {
+    navigationBarTitleText: '修改testUrl的值'
+  }
+
+  data = {}
+
+  components = {}
+
+  methods = {}
+
+  events = {}
+
+  watch = {}
+
+  computed = {}
+
+  onLoad() {
+    console.log(` g.testUrl 111 = ${JSON.stringify(g.testUrl, null, '  ')}`)
+    // g.testUrl = 'test222'
+    g.changeUrl('test222')
+    console.log(` g.testUrl 222 = ${JSON.stringify(g.testUrl, null, '  ')}`)
+  }
+
+  onShow() {}
+}
+</script>

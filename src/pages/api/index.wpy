@@ -23,6 +23,7 @@
 <script>
 import wepy from 'wepy'
 import pageConfig from '../../config/pages_config'
+import g from '@/libs/global'
 
 export default class Index extends wepy.page {
   config = {
@@ -60,6 +61,14 @@ export default class Index extends wepy.page {
 
   onLoad() {
     console.log(`pages = ${Object.values(this.pages)}`)
+    this.testGlobalEnv()
+  }
+
+  async testGlobalEnv() {
+    console.log(` testGlobalEnv = ${11}`)
+    console.log(`before testUrl = ${g.testUrl}`)
+    g.testUrl = 'after://baidu.com'
+    console.log(`after testUrl = ${g.testUrl}`)
   }
 }
 </script>

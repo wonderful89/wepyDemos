@@ -1,35 +1,36 @@
 <!-- 加载字体示例 -->
 <style lang='less'>
-@font-face {
-  font-family: iconfont;
-  src: url('https://stdl.qq.com/stdl/translator/yyj/iconfont.ttf');
-}
+@import '../../style/iconfont';
+// @font-face {
+//   font-family: iconfont;
+//   src: url('https://stdl.qq.com/stdl/translator/yyj/iconfont.ttf');
+// }
 
 .container {
   font-family: 'iconfont';
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
-  .search {
+  .iconfont-search {
     &:before {
-      content: '\EA3A';
       color: red;
     }
   }
-  .audio {
-    &:after {
-      content: '\EA3B';
+  .iconfont-warning {
+    &:before {
       color: red;
+      content: '\EA4E';
     }
   }
-  .select {
-    &:after {
-      content: '\EA3C';
+  .iconfont-select {
+    font-size: 40rpx;
+    &:before {
       color: red;
+      font-size: 32rpx;
     }
   }
-  .select2 {
-    &:after {
+  .iconfont-select2 {
+    &:before {
       content: '\EA3D';
       color: blue;
     }
@@ -39,10 +40,10 @@
 
 <template>
   <view class='container'>
-      <view class='search'>search</view>
-      <view class='audio'>audio</view>
-      <view class='select'>select</view>
-      <view class='select2'>select2</view>
+      <view class='iconfont-search'>search</view>
+      <view class='iconfont-warning'>warning</view>
+      <view class='iconfont-select'>select</view>
+      <view class='iconfont-select2'>select2</view>
   </view>
 </template>
 

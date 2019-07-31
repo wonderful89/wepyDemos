@@ -1,0 +1,63 @@
+<style lang='less'>
+</style>
+
+<template>
+  <view class='container'>
+      <button @tap.stop="selectImage">select image</button>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: 'save file'
+  }
+
+  data = {}
+
+  computed = {}
+
+  components = {}
+
+  methods = {
+    async selectImage() {
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success(res) {
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths
+          console.log(
+            `selectImage2 tempFilePaths = ${JSON.stringify(
+              tempFilePaths[0],
+              null,
+              '  '
+            )}`
+          )
+          wx.saveFile({
+            tempFilePath: tempFilePaths[0], // 需要保存的文件的临时路径,
+            success: res => {
+              console.log(`saveFile res = ${JSON.stringify(res, null, '  ')}`)
+              const savedFilePath = res.savedFilePath
+              console.log(`savedFilePath savedFilePath = ${savedFilePath}`)
+            },
+            fail: res => {
+              console.log(`fail res = ${JSON.stringify(res, null, '  ')}`)
+            }
+          })
+        }
+      })
+    }
+  }
+
+  events = {}
+
+  watch = {}
+
+  onLoad() {}
+
+  onShow() {}
+}
+</script>

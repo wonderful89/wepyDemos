@@ -1,70 +1,52 @@
 const frameworkPages = {
-  // 'Timer 定时器': 'pages/framework/timer',
-  // 'Timer 定时器2': 'pages/framework/timer',
+  'Redux测试': '/pages/framework/redux',
+  'Wepy 子组件传值测试': '/pages/framework/wepy-array'
+}
 
-  'weui: list': '/example/button',
+const apiPages = {
+  '流式录音测试': '/pages/api/slice_recoder',
+  '微信登录': '/pages/api/wechat_login',
+  '分享': '/pages/api/share_info',
+  '保存文件': '/pages/api/save_file',
+  '全局文件测试': '/pages/api/global_env_test',
+  '全局文件测试2': '/pages/api/global_env_test2'
+}
+
+const componentPages = {
+  'weui: list': '/example/list',
   'weui: button': '/example/button',
   'weui: flex': '/example/flex',
   'weui: grid': '/example/grid',
   'weui: actionsheet': '/example/actionsheet',
-  'Redux测试': 'redux',
-  'Wepy 子组件传值测试': 'wepy-array'
+
+  'bgview': '/pages/comp/bgview',
+  'common-view': '/pages/comp/common-view',
+  'fontsize': '/pages/comp/fontsize',
+  'map': '/pages/comp/map',
+  'circle': '/pages/comp/circle',
+  'photo': '/pages/comp/photo'
 }
 
-const apiPages = {
-  'weui: list': '/example/button',
-  'weui: button': '/example/button',
-  '流式录音测试': 'slice_recoder',
-  '微信登录': 'wechat_login',
-  '分享': 'share_info'
-}
-
-const componentPages = {
-  'weui: list': '/example/button',
-  'bgview': 'bgview',
-  'common-view': 'common-view',
-  'fontsize': 'fontsize',
-  'map': 'map',
-  'circle': 'circle',
-  'photo': 'photo'
-}
-
-const appPages = [
-  // 'pages/comp/photo',
-
+let appPages = [
   'pages/framework/index',
-  'pages/framework/redux',
-  'pages/framework/wepy-array',
-
   'pages/api/index',
-  'pages/api/slice_recoder',
-  'pages/api/wechat_login',
-  'pages/api/share_info',
-
   'pages/comp/index',
-  'pages/comp/bgview',
-  'pages/comp/common-view',
-  'pages/comp/fontsize',
-  'pages/comp/map',
-  'pages/comp/circle',
-  'pages/comp/photo',
-
   'pages/home',
   'pages/index',
-
-  'example/grid',
-  'example/list',
-  'example/actionsheet',
-  'example/button',
-  'example/flex'
 ]
+_init(); // 执行初始化函数
 
-// export default {
-// frameworkPages,
-// componentPages,
-// apiPages,
-// appPages
-// }
+function _init() {
+  console.log(`_init pages`);
+  let pages = [componentPages, frameworkPages, apiPages]
+  pages.forEach(curP => {
+    let componentPageValues = Object.values(curP)
+    componentPageValues.map((value) => {
+      let item = value.substring(1, value.length)
+      appPages.push(item)
+    })
+  })
+}
 
 module.exports = {
   frameworkPages,

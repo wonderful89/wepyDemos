@@ -1,0 +1,42 @@
+<style lang='less'>
+</style>
+<template>
+  <view class='container'></view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import g from '@/libs/global'
+import base from '@/libs/base'
+
+export default class Example extends wepy.page {
+  config = {
+    navigationBarTitleText: '观察testUrl的值'
+  }
+
+  data = {
+    testStr: g.testUrl
+  }
+
+  components = {}
+
+  methods = {}
+
+  events = {}
+
+  watch = {}
+
+  computed = {}
+
+  onLoad() {
+    console.log(` g.testUrl = ${JSON.stringify(g.testUrl, null, '  ')}`)
+    console.log(` this.testStr = ${JSON.stringify(this.testStr, null, '  ')}`)
+
+    setTimeout(() => {
+      base.request()
+    }, 3000)
+  }
+
+  onShow() {}
+}
+</script>
