@@ -13,6 +13,7 @@ const apiPages = {
 }
 
 const componentPages = {
+  'editor': '/pages/comp/editor',
   'weui: list': '/example/list',
   'weui: button': '/example/button',
   'weui: flex': '/example/flex',
